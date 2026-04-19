@@ -22,18 +22,13 @@ app.use('/api/quiz', quizRoutes)
 app.use('/api/leaderboard', leaderboardRoutes)
 app.use('/api/paging', pagingRoutes)
 
-// Serve static files from the React app build directory in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')))
+// Serve static files from the React app build directory (always, not just production)
+const distPath = path.join(__dirname, '../client/dist')
+app.use(express.static(distPath))
 
-  // Handle React routing, return all non-API requests to React app
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-  })
-}
-
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' })
+// Handle React routing - return index.html for any route that's not an API
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'))
 })
 
 // Global error handler
