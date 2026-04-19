@@ -7,6 +7,8 @@
   ],
   "scripts": {
     "install-all": "npm install --workspaces",
+    "build": "cd server && npm run build",
+    "start": "cd server && npm start",
     "start:client": "npm --workspace client run dev",
     "start:server": "npm --workspace server run start"
   }
